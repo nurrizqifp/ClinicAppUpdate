@@ -18,13 +18,21 @@ class AppointmentController extends BaseController {
         $this->queueService       = new QueueService();
     }
 
-    // â”€â”€â”€ Patient: Book Appointment â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
     /**
      * GET  ?page=appointment          â†’ Show booking form
      * POST ?page=appointment          â†’ Submit booking
      */
     public function index(): void {
+        $view = trim((string)($_GET['view'] ?? ''));
+        if ($view === 'history') {
+            $this->history();
+            return;
+        }
+        if ($view === 'list') {
+            $this->list();
+            return;
+        }
+
         $this->requireRole(['patient', 'receptionist', 'admin']);
 
         if ($this->isPost()) {

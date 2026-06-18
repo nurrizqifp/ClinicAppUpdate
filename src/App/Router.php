@@ -87,12 +87,8 @@ class Router {
                     && $route['page'] === $baseRoute
                 ) {
                     // Automatically map clean URL segments to GET params for controller compatibility
-                    if (!isset($_GET['action'])) {
-                        $_GET['action'] = $subAction;
-                    }
-                    if (!isset($_GET['view'])) {
-                        $_GET['view'] = $subAction;
-                    }
+                    $_GET['action'] = $subAction;
+                    $_GET['view'] = $subAction;
                     // Run middleware for the matched base route
                     Middleware::handle($route['page']);
                     $this->callHandler($route['handler']);

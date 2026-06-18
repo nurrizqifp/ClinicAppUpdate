@@ -23,6 +23,10 @@ class MedicalRecordController extends BaseController {
      * GET  ?page=medical-record  → Doctor's consultation queue today
      */
     public function index(): void {
+        if (Auth::role() === 'patient') {
+            $this->redirect('medical-record', ['action' => 'history']);
+            return;
+        }
         $this->requireRole(['doctor', 'admin']);
         // Admin sees all queues; doctor sees only their own
         $doctorId = Auth::hasRole('admin') ? null : Auth::id();
